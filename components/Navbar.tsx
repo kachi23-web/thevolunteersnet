@@ -32,7 +32,7 @@ export default function Navbar() {
             className="h-10 w-auto"
             priority
           />
-          <span className="text-lg font-black tracking-tight text-slate-900">
+          <span className="text-xl text-[#1565C0]">
             The Volunteer's Nation
           </span>
         </Link>
