@@ -1,0 +1,106 @@
+import Link from "next/link";
+import {
+  getServices,
+  getStats,
+  getTestimonials,
+  getBlogPosts,
+} from "@/lib/content";
+
+const quickLinks = [
+  { href: "/admin/hero", label: "Hero", description: "Manage hero section content" },
+  { href: "/admin/services", label: "Services", description: "Edit services offered" },
+  { href: "/admin/stats", label: "Stats", description: "Update impact statistics" },
+  {
+    href: "/admin/testimonials",
+    label: "Testimonials",
+    description: "Manage testimonial quotes",
+  },
+  { href: "/admin/blog", label: "Blog", description: "Create and edit blog posts" },
+  { href: "/admin/cta", label: "CTA", description: "Edit call-to-action section" },
+  { href: "/admin/about", label: "About", description: "Update about page content" },
+];
+
+export default async function AdminDashboardPage() {
+  let servicesCount = 0;
+  let statsCount = 0;
+  let testimonialsCount = 0;
+  let blogPostsCount = 0;
+
+  try {
+    const [services, stats, testimonials, blogPosts] = await Promise.all([
+      getServices(),
+      getStats(),
+      getTestimonials(),
+      getBlogPosts(),
+    ]);
+
+    servicesCount = services.length;
+    statsCount = stats.length;
+    testimonialsCount = testimonials.length;
+    blogPostsCount = blogPosts.length;
+  } catch {
+    // If data fails to load, counts remain at 0
+  }
+
+  const summaryCards = [
+    { label: "Services", count: servicesCount, href: "/admin/services" },
+    { label: "Stats", count: statsCount, href: "/admin/stats" },
+    { label: "Testimonials", count: testimonialsCount, href: "/admin/testimonials" },
+    { label: "Blog Posts", count: blogPostsCount, href: "/admin/blog" },
+  ];
+
+  return (
+    <div className="max-w-5xl mx-auto">
+      {/* Welcome Section */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-slate-900">
+          Welcome to the Admin Dashboard
+        </h1>
+        <p className="mt-1 text-slate-600">
+          Manage your website content from here. Use the sections below to update
+          pages, posts, and site-wide settings.
+        </p>
+      </div>
+
+      {/* Content Summary Cards */}
+      <section className="mb-10">
+        <h2 className="text-lg font-semibold text-slate-800 mb-4">
+          Content Summary
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {summaryCards.map((card) => (
+            <Link
+              key={card.label}
+              href={card.href}
+              className="block rounded-lg border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <p className="text-sm font-medium text-slate-500">{card.label}</p>
+              <p className="mt-1 text-3xl font-bold text-[#1565C0]">
+                {card.count}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Quick Links */}
+      <section>
+        <h2 className="text-lg font-semibold text-slate-800 mb-4">
+          Quick Links
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {quickLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="block rounded-lg border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-[#1565C0]/30 transition-all"
+            >
+              <p className="font-medium text-slate-900">{link.label}</p>
+              <p className="mt-1 text-sm text-slate-500">{link.description}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}

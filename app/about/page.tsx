@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { getAboutContent } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'About Us | The Volunteer Nations',
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
     'Learn about The Volunteer Nations — our mission, values, and the team behind the movement.',
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const content = await getAboutContent();
+
   return (
     <>
       {/* Hero */}
@@ -22,16 +25,14 @@ export default function AboutPage() {
           {/* Text */}
           <div>
             <span className="inline-flex items-center rounded-full border border-[#1565C0]/20 bg-[#1565C0]/5 px-4 py-1.5 text-sm font-medium text-[#1565C0] mb-8">
-              Who We Are
+              {content.hero.badge}
             </span>
             <h1 className="text-5xl lg:text-6xl font-black leading-[0.95] tracking-tight text-slate-900">
-              Driven by Purpose,
-              <span className="block text-[#1565C0]">Powered by People</span>
+              {content.hero.headingLine1}
+              <span className="block text-[#1565C0]">{content.hero.headingHighlight}</span>
             </h1>
             <p className="mt-8 text-lg leading-8 text-slate-600 max-w-xl">
-              The Volunteer Nations is a volunteer-driven organization committed
-              to amplifying the impact of social initiatives by connecting them
-              with skilled, passionate volunteers.
+              {content.hero.description}
             </p>
             <div className="flex flex-wrap gap-4 mt-10">
               <Link
@@ -52,7 +53,7 @@ export default function AboutPage() {
           {/* Image */}
           <div className="relative rounded-[32px] overflow-hidden shadow-xl">
             <Image
-              src="https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=1400&auto=format&fit=crop"
+              src={content.hero.heroImage}
               alt="The Volunteer Nations team members at a community event"
               width={700}
               height={600}
@@ -68,16 +69,13 @@ export default function AboutPage() {
         <div className="bg-[#1565C0]/5 rounded-3xl p-10">
           <h2 className="text-2xl font-black text-slate-900 mb-4">Our Mission</h2>
           <p className="text-slate-600 leading-8">
-            To bridge the gap between organizations and volunteers by providing
-            structured, reliable, and impactful volunteer engagement systems.
+            {content.mission}
           </p>
         </div>
         <div className="bg-orange-50 rounded-3xl p-10">
           <h2 className="text-2xl font-black text-slate-900 mb-4">Our Vision</h2>
           <p className="text-slate-600 leading-8">
-            To become the world&apos;s leading volunteer mobilization platform,
-            creating a global network of changemakers committed to transforming
-            lives and driving sustainable development.
+            {content.vision}
           </p>
         </div>
       </section>
@@ -87,15 +85,10 @@ export default function AboutPage() {
         <div className="bg-slate-900 rounded-3xl p-10 lg:p-14">
           <h2 className="text-3xl font-black text-white mb-4">Our Approach</h2>
           <p className="text-slate-300 leading-8 mb-10 max-w-2xl">
-            We don&apos;t just send volunteers — we build systems.
+            {content.approach.description}
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: 'Clear Service Agreements', icon: '📋' },
-              { title: 'Volunteer Policies', icon: '📜' },
-              { title: 'Accountability Structures', icon: '🏗️' },
-              { title: 'Performance Tracking', icon: '📊' },
-            ].map((item) => (
+            {content.approach.items.map((item) => (
               <div
                 key={item.title}
                 className="bg-white/10 rounded-2xl p-6 border border-white/10"
@@ -115,38 +108,7 @@ export default function AboutPage() {
             What We Stand For
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Community First',
-                description:
-                  'Every decision we make is guided by the needs of the communities we serve.',
-              },
-              {
-                title: 'Purposeful Matching',
-                description:
-                  'We align volunteer skills with organizational needs to maximize real-world impact.',
-              },
-              {
-                title: 'Continuous Growth',
-                description:
-                  'We invest in volunteers and partners through training, support, and recognition.',
-              },
-              {
-                title: 'Transparency',
-                description:
-                  'We operate with openness and accountability in everything we do.',
-              },
-              {
-                title: 'Inclusivity',
-                description:
-                  'We welcome volunteers and partners from all backgrounds, cultures, and walks of life.',
-              },
-              {
-                title: 'Measurable Impact',
-                description:
-                  'We track outcomes — not just effort — to ensure our work creates lasting change.',
-              },
-            ].map((value) => (
+            {content.values.map((value) => (
               <div
                 key={value.title}
                 className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100"

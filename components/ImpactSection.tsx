@@ -1,6 +1,10 @@
-import { stats } from '@/lib/data';
+import type { StatItem } from '@/types';
 
-export default function ImpactSection() {
+interface ImpactSectionProps {
+  stats: StatItem[];
+}
+
+export default function ImpactSection({ stats }: ImpactSectionProps) {
   return (
     <section id="impact" className="py-28 bg-[#0D1B3E] text-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">

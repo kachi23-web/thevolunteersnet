@@ -1,6 +1,6 @@
 import ServicesSection from '@/components/ServicesSection';
 import Link from 'next/link';
-import { services } from '@/lib/data';
+import { getServices } from '@/lib/content';
 import {
   HeartHandshake,
   GraduationCap,
@@ -20,7 +20,10 @@ export const metadata = {
     'Explore the programs and services TVN offers to connect volunteers with organizations that need them.',
 };
 
-const expandedServices = services.map((service) => {
+export default async function ServicesPage() {
+  const services = await getServices();
+
+  // Hardcoded fallback expansions for services that don't have `expanded` in the content layer
   const expansions: Record<string, string> = {
     'Volunteer Recruitment':
       'Our recruitment process goes beyond posting listings. We actively source, screen, and match volunteers based on skills, availability, and organizational fit — ensuring every placement is purposeful and productive from day one.',
@@ -32,13 +35,11 @@ const expandedServices = services.map((service) => {
       'From neighborhood clean-ups to long-term mentorship initiatives, our community programs are co-designed with local stakeholders to address real needs. We provide coordination, resources, and volunteer support throughout.',
   };
 
-  return {
+  const expandedServices = services.map((service) => ({
     ...service,
-    expanded: expansions[service.title] ?? service.description,
-  };
-});
+    expanded: service.expanded ?? expansions[service.title] ?? service.description,
+  }));
 
-export default function ServicesPage() {
   return (
     <>
       {/* HERO */}

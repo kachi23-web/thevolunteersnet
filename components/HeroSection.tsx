@@ -1,8 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { stats } from '@/lib/data';
+import type { HeroContent, StatItem } from '@/types';
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  content: HeroContent;
+  stats: StatItem[];
+}
+
+export default function HeroSection({ content, stats }: HeroSectionProps) {
   return (
     <section
       style={{
@@ -15,32 +20,31 @@ export default function HeroSection() {
         {/* Text column */}
         <div className="animate-[fadeInUp_0.6s_ease-out_forwards]">
           <span className="inline-flex items-center rounded-full border border-[#1565C0]/20 bg-[#1565C0]/5 px-4 py-1.5 text-sm font-medium text-[#1565C0] mb-8">
-            Empowering Communities Worldwide
+            {content.badge}
           </span>
 
           <h1 className="text-5xl lg:text-7xl font-black leading-[0.95] tracking-tight text-slate-900">
-            Connecting
-            <span className="block text-[#1565C0]">Skilled Volunteers</span>
-            To Real Impact
+            {content.headingLine1}
+            <span className="block text-[#1565C0]">{content.headingHighlight}</span>
+            {content.headingLine2}
           </h1>
 
           <p className="mt-8 text-lg leading-8 text-slate-600 max-w-xl">
-            We help nonprofits, NGOs, and community organizations recruit,
-            train, and manage volunteers that create measurable impact.
+            {content.description}
           </p>
 
           <div className="flex flex-wrap gap-4 mt-10">
             <Link
-              href="/volunteer"
+              href={content.primaryCta.href}
               className="rounded-full bg-[#1565C0] hover:bg-[#0D47A1] transition-colors duration-200 px-7 py-3.5 text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
             >
-              Become a Volunteer
+              {content.primaryCta.label}
             </Link>
             <Link
-              href="/partner"
+              href={content.secondaryCta.href}
               className="rounded-full border border-[#1565C0] text-[#1565C0] hover:bg-[#1565C0]/10 transition-colors duration-200 px-7 py-3.5 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
             >
-              Partner With Us
+              {content.secondaryCta.label}
             </Link>
           </div>
 
@@ -58,7 +62,7 @@ export default function HeroSection() {
         {/* Image column */}
         <div className="relative rounded-[32px] overflow-hidden shadow-xl">
           <Image
-            src="/hero-img.png"
+            src={content.heroImage}
             alt="The Volunteer Nations team members smiling at a community event"
             width={700}
             height={600}

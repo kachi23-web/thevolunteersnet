@@ -1,4 +1,4 @@
-import { blogPosts } from '@/lib/data';
+import { getBlogPosts } from '@/lib/content';
 import BlogCard from '@/components/BlogCard';
 
 export const metadata = {
@@ -7,7 +7,9 @@ export const metadata = {
     'Stories, insights, and updates from The Volunteer Nations community.',
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogPosts = await getBlogPosts();
+
   return (
     <>
       {/* Page hero */}

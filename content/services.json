@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Volunteer Recruitment",
+    "description": "We connect organizations with reliable and passionate volunteers ready to make meaningful impact.",
+    "icon": "HeartHandshake",
+    "id": "service-1"
+  },
+  {
+    "title": "Training & Development",
+    "description": "Structured onboarding and capacity-building programs for volunteers and nonprofits.",
+    "icon": "GraduationCap",
+    "id": "service-2"
+  },
+  {
+    "title": "Community Programs",
+    "description": "Supporting community-driven initiatives through strategic volunteer engagement.",
+    "icon": "Globe2",
+    "id": "service-3"
+  }
+]

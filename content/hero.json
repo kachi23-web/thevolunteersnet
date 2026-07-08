@@ -1,0 +1,16 @@
+{
+  "badge": "Empowering Communities Worldwide",
+  "headingLine1": "Connecting",
+  "headingHighlight": "Skilled Volunteers",
+  "headingLine2": "To Real Impact",
+  "description": "We help nonprofits, NGOs, and community organizations recruit, train, and manage volunteers that create measurable impact.",
+  "primaryCta": {
+    "label": "Become a Volunteer",
+    "href": "/volunteer"
+  },
+  "secondaryCta": {
+    "label": "Partner With Us",
+    "href": "/partner"
+  },
+  "heroImage": "/hero-img.png"
+}

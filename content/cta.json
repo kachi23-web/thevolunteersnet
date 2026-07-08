@@ -1,0 +1,12 @@
+{
+  "heading": "Ready To Make A Difference?",
+  "description": "Whether you're an organization or an individual ready to serve, there's a place for you in our global community.",
+  "primaryCta": {
+    "label": "Become a Volunteer",
+    "href": "/volunteer"
+  },
+  "secondaryCta": {
+    "label": "Partner With Us",
+    "href": "/partner"
+  }
+}

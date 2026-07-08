@@ -1,0 +1,17 @@
+[
+  {
+    "value": "100+",
+    "label": "Volunteers Mobilized",
+    "id": "stat-1"
+  },
+  {
+    "value": "10+",
+    "label": "Programs Supported",
+    "id": "stat-2"
+  },
+  {
+    "value": "10K+",
+    "label": "Lives Impacted",
+    "id": "stat-3"
+  }
+]

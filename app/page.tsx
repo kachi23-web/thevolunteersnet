@@ -5,18 +5,34 @@ import ImpactSection from '@/components/ImpactSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import BlogPreview from '@/components/BlogPreview';
 import CtaSection from '@/components/CtaSection';
-import { services } from '@/lib/data';
+import {
+  getHeroContent,
+  getServices,
+  getStats,
+  getTestimonials,
+  getBlogPosts,
+  getCtaContent,
+} from '@/lib/content';
 
-export default function Home() {
+export default async function Home() {
+  const [hero, services, stats, testimonials, posts, cta] = await Promise.all([
+    getHeroContent(),
+    getServices(),
+    getStats(),
+    getTestimonials(),
+    getBlogPosts(),
+    getCtaContent(),
+  ]);
+
   return (
     <>
-      <HeroSection />
+      <HeroSection content={hero} stats={stats} />
       <TrustedSection />
       <ServicesSection services={services} />
-      <ImpactSection />
-      <TestimonialsSection />
-      <BlogPreview />
-      <CtaSection />
+      <ImpactSection stats={stats} />
+      <TestimonialsSection testimonials={testimonials} />
+      <BlogPreview posts={posts} />
+      <CtaSection content={cta} />
     </>
   );
 }

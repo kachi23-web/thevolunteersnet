@@ -1,9 +1,13 @@
 import Link from 'next/link';
-import { blogPosts } from '@/lib/data';
 import BlogCard from '@/components/BlogCard';
+import type { BlogPostItem } from '@/types';
 
-export default function BlogPreview() {
-  const previewPosts = blogPosts.slice(0, 3);
+interface BlogPreviewProps {
+  posts: BlogPostItem[];
+}
+
+export default function BlogPreview({ posts }: BlogPreviewProps) {
+  const previewPosts = posts.slice(0, 3);
 
   return (
     <section id="blog" className="py-28 bg-white">
