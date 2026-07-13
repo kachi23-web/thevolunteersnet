@@ -162,6 +162,15 @@ export function StatsForm({ initialStats }: { initialStats: StatItem[] }) {
         >
           {pending ? "Saving..." : "Save Changes"}
         </button>
+        <button
+          type="submit"
+          name="publish"
+          value="true"
+          disabled={pending}
+          className="rounded-md bg-green-600 px-6 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {pending ? "Publishing..." : "Publish"}
+        </button>
       </div>
     </form>
   );

@@ -195,13 +195,22 @@ export function TestimonialsForm({ initialTestimonials }: TestimonialsFormProps)
         </p>
       </div>
 
-      <div className="pt-4 border-t border-slate-200">
+      <div className="pt-4 border-t border-slate-200 flex items-center gap-3">
         <button
           type="submit"
           disabled={pending}
           className="rounded-md bg-[#1565C0] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#1255A1] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {pending ? "Saving..." : "Save Testimonials"}
+        </button>
+        <button
+          type="submit"
+          name="publish"
+          value="true"
+          disabled={pending}
+          className="rounded-md bg-green-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {pending ? "Publishing..." : "Publish"}
         </button>
       </div>
     </form>
