@@ -138,7 +138,7 @@ export const ctaSchema = z.object({
 
 const approachItemSchema = z.object({
   title: nonEmptyString(50, "Title"),
-  icon: iconSchema,
+  icon: nonEmptyString(50, "Icon"),
 });
 
 const valueItemSchema = z.object({

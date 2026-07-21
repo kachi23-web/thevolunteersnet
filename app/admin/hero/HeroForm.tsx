@@ -60,18 +60,20 @@ export default function HeroForm({ initialData }: HeroFormProps) {
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
+        credentials: "same-origin",
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        setUploadError(data.error || "Upload failed");
+        const data = await res.json().catch(() => null);
+        setUploadError(data?.error || `Upload failed (${res.status})`);
         return;
       }
 
+      const data = await res.json();
       setImageValue(data.path);
       setImagePreview(data.path);
-    } catch {
+    } catch (err) {
+      console.error("Upload error:", err);
       setUploadError("Upload failed. Please try again.");
     } finally {
       setUploading(false);
