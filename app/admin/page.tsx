@@ -1,5 +1,16 @@
 import Link from "next/link";
 import {
+  ImageIcon,
+  Briefcase,
+  BarChart3,
+  MessageSquareQuote,
+  FileText,
+  Megaphone,
+  Info,
+  Users,
+  Handshake,
+} from "lucide-react";
+import {
   getServices,
   getStats,
   getTestimonials,
@@ -11,19 +22,20 @@ import {
 } from "@/lib/submissions";
 
 const quickLinks = [
-  { href: "/admin/hero", label: "Hero", description: "Manage hero section content" },
-  { href: "/admin/services", label: "Services", description: "Edit services offered" },
-  { href: "/admin/stats", label: "Stats", description: "Update impact statistics" },
+  { href: "/admin/hero", label: "Hero", description: "Manage hero section content", icon: ImageIcon },
+  { href: "/admin/services", label: "Services", description: "Edit services offered", icon: Briefcase },
+  { href: "/admin/stats", label: "Stats", description: "Update impact statistics", icon: BarChart3 },
   {
     href: "/admin/testimonials",
     label: "Testimonials",
     description: "Manage testimonial quotes",
+    icon: MessageSquareQuote,
   },
-  { href: "/admin/blog", label: "Blog", description: "Create and edit blog posts" },
-  { href: "/admin/cta", label: "CTA", description: "Edit call-to-action section" },
-  { href: "/admin/about", label: "About", description: "Update about page content" },
-  { href: "/admin/volunteers", label: "Volunteers", description: "View volunteer applications" },
-  { href: "/admin/partners", label: "Partners", description: "View partner inquiries" },
+  { href: "/admin/blog", label: "Blog", description: "Create and edit blog posts", icon: FileText },
+  { href: "/admin/cta", label: "CTA", description: "Edit call-to-action section", icon: Megaphone },
+  { href: "/admin/about", label: "About", description: "Update about page content", icon: Info },
+  { href: "/admin/volunteers", label: "Volunteers", description: "View volunteer applications", icon: Users },
+  { href: "/admin/partners", label: "Partners", description: "View partner inquiries", icon: Handshake },
 ];
 
 export default async function AdminDashboardPage() {
@@ -110,14 +122,17 @@ export default async function AdminDashboardPage() {
           Quick Links
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {quickLinks.map((link) => (
+          {quickLinks.map(({ href, label, description, icon: Icon }) => (
             <Link
-              key={link.href}
-              href={link.href}
+              key={href}
+              href={href}
               className="block rounded-lg border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-[#1565C0]/30 transition-all"
             >
-              <p className="font-medium text-slate-900">{link.label}</p>
-              <p className="mt-1 text-sm text-slate-500">{link.description}</p>
+              <div className="flex items-center gap-3">
+                <Icon className="h-5 w-5 text-[#1565C0] shrink-0" />
+                <p className="font-medium text-slate-900">{label}</p>
+              </div>
+              <p className="mt-1 text-sm text-slate-500">{description}</p>
             </Link>
           ))}
         </div>
