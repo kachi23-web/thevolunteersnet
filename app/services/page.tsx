@@ -14,6 +14,8 @@ const iconMap: Record<string, LucideIcon> = {
   Globe2,
 };
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Services — The Volunteer Nations',
   description:

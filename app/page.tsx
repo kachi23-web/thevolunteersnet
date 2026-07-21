@@ -14,6 +14,8 @@ import {
   getCtaContent,
 } from '@/lib/content';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const [hero, services, stats, testimonials, posts, cta] = await Promise.all([
     getHeroContent(),

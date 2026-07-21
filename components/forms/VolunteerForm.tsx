@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { submitVolunteerForm } from '@/app/admin/actions/submissions';
 
 interface FormFields {
   fullName: string;
@@ -40,6 +41,8 @@ export default function VolunteerForm() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   function validate(data: FormFields): FormErrors {
     const errs: FormErrors = {};
@@ -60,20 +63,33 @@ export default function VolunteerForm() {
   ) {
     const { name, value } = e.target;
     setFields((prev) => ({ ...prev, [name]: value }));
-    // Clear the error for this field as the user types
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setServerError('');
     const errs = validate(fields);
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
       return;
     }
-    setSubmitted(true);
+
+    setSubmitting(true);
+    try {
+      const result = await submitVolunteerForm(fields);
+      if (result.error) {
+        setServerError(result.error);
+      } else {
+        setSubmitted(true);
+      }
+    } catch {
+      setServerError('Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -94,6 +110,12 @@ export default function VolunteerForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      {serverError && (
+        <div role="alert" className="rounded-xl bg-red-50 border border-red-200 p-4 text-sm text-red-700">
+          {serverError}
+        </div>
+      )}
+
       {/* Full Name */}
       <div>
         <label htmlFor="fullName" className="block text-sm font-medium text-slate-900 mb-1.5">
@@ -227,9 +249,10 @@ export default function VolunteerForm() {
 
       <button
         type="submit"
-        className="w-full rounded-full bg-[#1565C0] text-white text-sm font-semibold px-8 py-3.5 hover:bg-[#0D47A1] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
+        disabled={submitting}
+        className="w-full rounded-full bg-[#1565C0] text-white text-sm font-semibold px-8 py-3.5 hover:bg-[#0D47A1] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0] disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        Submit Application
+        {submitting ? 'Submitting…' : 'Submit Application'}
       </button>
     </form>
   );

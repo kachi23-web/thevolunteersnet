@@ -13,6 +13,8 @@ const navLinks = [
   { href: "/admin/blog", label: "Blog" },
   { href: "/admin/cta", label: "CTA" },
   { href: "/admin/about", label: "About" },
+  { href: "/admin/volunteers", label: "Volunteers" },
+  { href: "/admin/partners", label: "Partners" },
 ];
 
 function AdminSidebar() {

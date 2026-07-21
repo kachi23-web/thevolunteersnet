@@ -1,6 +1,8 @@
 import { getBlogPosts } from '@/lib/content';
 import BlogCard from '@/components/BlogCard';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Blog — The Volunteer Nations',
   description:

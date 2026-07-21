@@ -5,6 +5,10 @@ import {
   getTestimonials,
   getBlogPosts,
 } from "@/lib/content";
+import {
+  getVolunteerSubmissions,
+  getPartnerSubmissions,
+} from "@/lib/submissions";
 
 const quickLinks = [
   { href: "/admin/hero", label: "Hero", description: "Manage hero section content" },
@@ -18,6 +22,8 @@ const quickLinks = [
   { href: "/admin/blog", label: "Blog", description: "Create and edit blog posts" },
   { href: "/admin/cta", label: "CTA", description: "Edit call-to-action section" },
   { href: "/admin/about", label: "About", description: "Update about page content" },
+  { href: "/admin/volunteers", label: "Volunteers", description: "View volunteer applications" },
+  { href: "/admin/partners", label: "Partners", description: "View partner inquiries" },
 ];
 
 export default async function AdminDashboardPage() {
@@ -25,6 +31,8 @@ export default async function AdminDashboardPage() {
   let statsCount = 0;
   let testimonialsCount = 0;
   let blogPostsCount = 0;
+  let volunteersCount = 0;
+  let partnersCount = 0;
 
   try {
     const [services, stats, testimonials, blogPosts] = await Promise.all([
@@ -39,7 +47,18 @@ export default async function AdminDashboardPage() {
     testimonialsCount = testimonials.length;
     blogPostsCount = blogPosts.length;
   } catch {
-    // If data fails to load, counts remain at 0
+    // MongoDB unreachable — counts stay at 0
+  }
+
+  try {
+    const [volunteers, partners] = await Promise.all([
+      getVolunteerSubmissions(),
+      getPartnerSubmissions(),
+    ]);
+    volunteersCount = volunteers.length;
+    partnersCount = partners.length;
+  } catch {
+    // File read failed — counts stay at 0
   }
 
   const summaryCards = [
@@ -47,6 +66,8 @@ export default async function AdminDashboardPage() {
     { label: "Stats", count: statsCount, href: "/admin/stats" },
     { label: "Testimonials", count: testimonialsCount, href: "/admin/testimonials" },
     { label: "Blog Posts", count: blogPostsCount, href: "/admin/blog" },
+    { label: "Volunteers", count: volunteersCount, href: "/admin/volunteers" },
+    { label: "Partners", count: partnersCount, href: "/admin/partners" },
   ];
 
   return (

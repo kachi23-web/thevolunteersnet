@@ -73,6 +73,28 @@ export interface AboutContent {
   values: Array<{ title: string; description: string }>;
 }
 
+// --- Form submission types ---
+
+export interface VolunteerSubmission {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  areaOfInterest: string;
+  motivation: string;
+  submittedAt: string;
+}
+
+export interface PartnerSubmission {
+  id: string;
+  organizationName: string;
+  contactName: string;
+  email: string;
+  organizationType: string;
+  volunteerNeeds: string;
+  submittedAt: string;
+}
+
 // --- Backward-compatible type aliases ---
 // These map old interface names to the new ones but make newly-added fields optional,
 // so existing static data in lib/data.ts continues to compile without modification.

@@ -1,6 +1,25 @@
 import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
+import { promises as fs } from "fs";
+import path from "path";
+
+interface AdminUser {
+  id: string;
+  username: string;
+  passwordHash: string;
+  createdAt: string;
+}
+
+async function getAdminUsers(): Promise<AdminUser[]> {
+  const filePath = path.join(process.cwd(), "content", "admins.json");
+  try {
+    const raw = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(raw) as AdminUser[];
+  } catch {
+    return [];
+  }
+}
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -15,26 +34,27 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        const adminUsername = process.env.ADMIN_USERNAME;
-        const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+        const admins = await getAdminUsers();
+        const admin = admins.find(
+          (a) => a.username === credentials.username
+        );
 
-        if (!adminUsername || !adminPasswordHash) {
+        if (!admin) {
           return null;
         }
 
-        if (credentials.username !== adminUsername) {
-          return null;
-        }
-
-        const isValid = await compare(credentials.password, adminPasswordHash);
+        const isValid = await compare(
+          credentials.password,
+          admin.passwordHash
+        );
 
         if (!isValid) {
           return null;
         }
 
         return {
-          id: "1",
-          name: adminUsername,
+          id: admin.id,
+          name: admin.username,
         };
       },
     }),
