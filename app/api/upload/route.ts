@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { getDb } from "@/lib/mongodb";
 
 const ALLOWED_TYPES = [
   "image/jpeg",
@@ -42,7 +41,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate a unique filename
-    const ext = path.extname(file.name) || `.${file.type.split("/")[1]}`;
+    const ext =
+      file.name.substring(file.name.lastIndexOf(".")) ||
+      `.${file.type.split("/")[1]}`;
     const timestamp = Date.now();
     const safeName = file.name
       .replace(ext, "")
@@ -50,18 +51,22 @@ export async function POST(request: NextRequest) {
       .toLowerCase();
     const filename = `${safeName}-${timestamp}${ext}`;
 
-    // Ensure uploads directory exists
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await mkdir(uploadsDir, { recursive: true });
-
-    // Write file
+    // Read file data and convert to base64
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const filePath = path.join(uploadsDir, filename);
-    await writeFile(filePath, buffer);
+    const base64 = Buffer.from(bytes).toString("base64");
 
-    // Return the public URL path
-    const publicPath = `/uploads/${filename}`;
+    // Store in MongoDB
+    const db = await getDb();
+    await db.collection("uploads").insertOne({
+      filename,
+      contentType: file.type,
+      size: file.size,
+      data: base64,
+      createdAt: new Date(),
+    });
+
+    // Return the URL that serves from our image API route
+    const publicPath = `/api/images/${filename}`;
     return NextResponse.json({ path: publicPath });
   } catch (error) {
     console.error("Upload error:", error);
