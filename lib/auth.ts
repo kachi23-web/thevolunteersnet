@@ -1,21 +1,16 @@
 import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { promises as fs } from "fs";
-import path from "path";
+import { getDb } from "@/lib/mongodb";
+import type { AdminUser } from "@/types";
 
-interface AdminUser {
-  id: string;
-  username: string;
-  passwordHash: string;
-  createdAt: string;
-}
+const ADMINS_COLLECTION = "admins";
 
 async function getAdminUsers(): Promise<AdminUser[]> {
-  const filePath = path.join(process.cwd(), "content", "admins.json");
   try {
-    const raw = await fs.readFile(filePath, "utf-8");
-    return JSON.parse(raw) as AdminUser[];
+    const db = await getDb();
+    const docs = await db.collection(ADMINS_COLLECTION).find({}).toArray();
+    return docs.map(({ _id, ...rest }) => rest) as unknown as AdminUser[];
   } catch {
     return [];
   }

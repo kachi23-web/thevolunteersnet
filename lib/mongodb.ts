@@ -37,8 +37,6 @@ function getClientPromise(): Promise<MongoClient> {
   return clientPromise;
 }
 
-export default getClientPromise();
-
 export async function getDb(): Promise<Db> {
   const client = await getClientPromise();
   return client.db();

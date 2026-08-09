@@ -75,6 +75,13 @@ export interface AboutContent {
 
 // --- Form submission types ---
 
+export interface AdminUser {
+  id: string;
+  username: string;
+  passwordHash: string;
+  createdAt: string;
+}
+
 export interface VolunteerSubmission {
   id: string;
   fullName: string;
