@@ -1,4 +1,5 @@
 import { HeartHandshake, GraduationCap, Globe2, type LucideIcon } from 'lucide-react';
+import Image from 'next/image';
 import type { Service } from '@/types';
 
 const iconMap: Record<string, LucideIcon> = {
@@ -15,19 +16,34 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
   return (
     <section id="services" className="py-28 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center">
-          <span className="text-[#1565C0] font-semibold uppercase tracking-[0.2em] text-xs">
-            What We Do
-          </span>
-          <h2 className="mt-4 text-4xl lg:text-5xl font-black tracking-tight text-slate-900">
-            Building Sustainable Volunteer Ecosystems
-          </h2>
-          <p className="mt-5 text-lg text-slate-600 leading-8">
-            Structured systems that help organizations recruit, train, and manage volunteers efficiently.
-          </p>
+
+        {/* Two-column header: text left, image right */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
+          <div>
+            <span className="text-[#1565C0] font-semibold uppercase tracking-[0.2em] text-xs">
+              What We Do
+            </span>
+            <h2 className="mt-4 text-4xl lg:text-5xl font-black tracking-tight text-slate-900">
+              Building Sustainable Volunteer Ecosystems
+            </h2>
+            <p className="mt-5 text-lg text-slate-600 leading-8">
+              Structured systems that help organizations recruit, train, and manage volunteers efficiently.
+            </p>
+          </div>
+
+          <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-xl">
+            <Image
+              src="/impact.png"
+              alt="Volunteers making an impact"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+        {/* Service cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
             <div
               key={service.title}

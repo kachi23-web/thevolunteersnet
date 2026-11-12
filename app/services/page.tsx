@@ -1,5 +1,6 @@
 import ServicesSection from '@/components/ServicesSection';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getServices } from '@/lib/content';
 import {
   HeartHandshake,
@@ -45,20 +46,53 @@ export default async function ServicesPage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center rounded-full bg-[#1565C0]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#1565C0]">
-            Our Services
-          </span>
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          <h1 className="mt-6 text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-tight">
-            What We <span className="text-[#1565C0]">Offer</span>
-          </h1>
+            {/* Text column */}
+            <div>
+              <span className="inline-flex items-center rounded-full bg-[#1565C0]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#1565C0]">
+                Our Services
+              </span>
 
-          <p className="mt-6 text-lg leading-8 text-slate-600 max-w-2xl mx-auto">
-            TVN provides end-to-end volunteer management solutions — from
-            finding the right people to building systems that keep them engaged.
-          </p>
+              <h1 className="mt-6 text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.05]">
+                Our <span className="text-[#1565C0]">Service</span>
+              </h1>
+
+              <p className="mt-6 text-lg leading-8 text-slate-600 max-w-lg">
+                TVN provides end-to-end volunteer management solutions — from
+                finding the right people to building systems that keep them engaged.
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link
+                  href="/volunteer"
+                  className="rounded-full bg-[#1565C0] hover:bg-[#0D47A1] transition-colors duration-200 px-7 py-3.5 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
+                >
+                  Become a Volunteer
+                </Link>
+                <Link
+                  href="/partner"
+                  className="rounded-full border border-[#1565C0] text-[#1565C0] hover:bg-[#1565C0]/10 transition-colors duration-200 px-7 py-3.5 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
+                >
+                  Partner With Us
+                </Link>
+              </div>
+            </div>
+
+            {/* Image column */}
+            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-xl">
+              <Image
+                src="/impact.png"
+                alt="Volunteers making an impact in the community"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+            </div>
+          </div>
         </div>
       </section>
 

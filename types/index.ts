@@ -4,6 +4,19 @@ export interface CtaLink {
   href: string;
 }
 
+// --- Hero carousel slide (used for slides 2+ managed in admin) ---
+export interface HeroSlideContent {
+  badge: string;
+  headingLine1: string;
+  headingHighlight: string;
+  headingLine2: string;
+  description: string;
+  primaryCta: CtaLink;
+  secondaryCta?: CtaLink;
+  heroImage: string;
+  imageAlt: string;
+}
+
 // --- Primary content data models ---
 
 export interface HeroContent {
@@ -15,6 +28,8 @@ export interface HeroContent {
   primaryCta: CtaLink;
   secondaryCta: CtaLink;
   heroImage: string;
+  /** Additional carousel slides managed via admin (slides 2, 3, …) */
+  extraSlides?: HeroSlideContent[];
 }
 
 export interface ServiceItem {

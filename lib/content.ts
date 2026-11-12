@@ -33,6 +33,34 @@ const DEFAULT_HERO_CONTENT: HeroContent = {
   primaryCta: { label: "Become a Volunteer", href: "/volunteer" },
   secondaryCta: { label: "Partner With Us", href: "/partner" },
   heroImage: "/hero-img.png",
+  extraSlides: [
+    {
+      badge: "Mobilizing Changemakers",
+      headingLine1: "Building",
+      headingHighlight: "Stronger Nonprofits",
+      headingLine2: "Together",
+      description:
+        "Our structured programs empower local organizations with dedicated, high-skilled volunteer talent to drive sustainable change.",
+      primaryCta: { label: "Explore Services", href: "/services" },
+      secondaryCta: { label: "Partner With Us", href: "/partner" },
+      heroImage:
+        "https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=1400&auto=format&fit=crop",
+      imageAlt: "Volunteers collaborating on a community project",
+    },
+    {
+      badge: "Transforming Communities",
+      headingLine1: "Creating",
+      headingHighlight: "Measurable Social",
+      headingLine2: "Impact",
+      description:
+        "From mentorship to field outreach, our global network of volunteers is making a positive difference every single day.",
+      primaryCta: { label: "Our Story", href: "/about" },
+      secondaryCta: { label: "Become a Volunteer", href: "/volunteer" },
+      heroImage:
+        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1400&auto=format&fit=crop",
+      imageAlt: "Diverse team of volunteers in a group discussion",
+    },
+  ],
 };
 
 const DEFAULT_CTA_CONTENT: CtaContent = {

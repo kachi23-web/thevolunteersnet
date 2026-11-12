@@ -42,6 +42,18 @@ const ctaButtonSchema = z.object({
 
 // --- Hero Schema ---
 
+export const heroSlideContentSchema = z.object({
+  badge: nonEmptyString(60, "Badge"),
+  headingLine1: nonEmptyString(40, "Heading line 1"),
+  headingHighlight: nonEmptyString(40, "Heading highlight"),
+  headingLine2: nonEmptyString(40, "Heading line 2"),
+  description: nonEmptyString(300, "Description"),
+  primaryCta: ctaButtonSchema,
+  secondaryCta: ctaButtonSchema.optional(),
+  heroImage: z.string().min(1, "Hero image is required"),
+  imageAlt: nonEmptyString(120, "Image alt text"),
+});
+
 export const heroSchema = z.object({
   badge: nonEmptyString(60, "Badge"),
   headingLine1: nonEmptyString(40, "Heading line 1"),
@@ -51,6 +63,7 @@ export const heroSchema = z.object({
   primaryCta: ctaButtonSchema,
   secondaryCta: ctaButtonSchema,
   heroImage: z.string().min(1, "Hero image is required"),
+  extraSlides: z.array(heroSlideContentSchema).max(4, "Maximum 4 extra slides").optional(),
 });
 
 // --- Service Schema ---

@@ -4,8 +4,7 @@ import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { authOptions } from "@/lib/auth";
 import { heroSchema } from "@/lib/schemas";
-import { updateHeroContent, getHeroContent } from "@/lib/content";
-import type { HeroContent } from "@/types";
+import { updateHeroContent } from "@/lib/content";
 
 export type ActionState = {
   success: boolean;
@@ -16,13 +15,22 @@ export async function updateHeroAction(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  // Verify session (Req 7.4)
   const session = await getServerSession(authOptions);
   if (!session) {
     return { success: false, error: "Unauthorized" };
   }
 
-  // Parse form fields and construct the nested shape expected by heroSchema
+  // Parse extra slides from serialised JSON string submitted by the form
+  let extraSlides: unknown = undefined;
+  const extraSlidesRaw = formData.get("extraSlides") as string | null;
+  if (extraSlidesRaw) {
+    try {
+      extraSlides = JSON.parse(extraSlidesRaw);
+    } catch {
+      return { success: false, error: "Invalid extra slides data." };
+    }
+  }
+
   const rawData = {
     badge: (formData.get("badge") as string) ?? "",
     headingLine1: (formData.get("headingLine1") as string) ?? "",
@@ -38,18 +46,15 @@ export async function updateHeroAction(
       href: (formData.get("secondaryCtaHref") as string) ?? "",
     },
     heroImage: (formData.get("heroImage") as string) ?? "",
+    extraSlides,
   };
 
-  // Validate using Zod (Req 3.2)
   const result = heroSchema.safeParse(rawData);
   if (!result.success) {
     return { success: false, error: result.error.flatten().fieldErrors };
   }
 
-  // Write validated content (Req 3.3)
   await updateHeroContent(result.data);
-
-  // Revalidate homepage (Req 3.1)
   revalidatePath("/");
 
   return { success: true };
