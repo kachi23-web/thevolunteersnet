@@ -27,9 +27,9 @@ export const site = {
 } as const;
 
 export const partners = [
-  { name: 'The Young Bookworms', logo: '/bookworms.png' },
-  { name: 'Impact Investors Foundation', logo: '/impact.png' },
-  { name: 'Woven Impact Network', logo: '/woven.png' },
-  { name: 'PlanenTekad Programme', logo: '/planen.png' },
-  { name: 'Karis & Eleos Hand of Hope Foundation', logo: '/kairos.png' },
+  { name: 'The Young Bookworms', logo: '/partners/bookworms.png' },
+  { name: 'Impact Investors Foundation', logo: '/partners/impact.png' },
+  { name: 'Woven Impact Network', logo: '/partners/woven.png' },
+  { name: 'PlanenTekad Programme', logo: '/partners/planen.png' },
+  { name: 'Karis & Eleos Hand of Hope Foundation', logo: '/partners/kairos.png' },
 ] as const;

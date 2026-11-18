@@ -21,15 +21,18 @@ export default function PartnerMarquee() {
             <li
               key={`${name}-${copy}`}
               aria-hidden={copy === 1 ? true : undefined}
-              className="relative mx-4 h-16 w-44 shrink-0 rounded-2xl border border-slate-200 bg-white"
+              title={name}
+              className="group mx-3 flex h-24 w-60 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-[0_1px_2px_rgba(13,27,62,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-blue/30 hover:shadow-[0_12px_28px_-14px_rgba(13,27,62,0.3)]"
             >
-              <Image
-                src={logo}
-                alt={copy === 0 ? name : ''}
-                fill
-                sizes="176px"
-                className="object-contain p-3"
-              />
+              <span className="relative h-full w-full">
+                <Image
+                  src={logo}
+                  alt={copy === 0 ? name : ''}
+                  fill
+                  sizes="208px"
+                  className="object-contain transition-transform duration-200 group-hover:scale-[1.04]"
+                />
+              </span>
             </li>
           ))
         )}

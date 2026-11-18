@@ -1,11 +1,45 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { Eye, Target } from 'lucide-react';
+import {
+  ClipboardCheck,
+  Eye,
+  ScrollText,
+  ShieldCheck,
+  Target,
+  TrendingUp,
+  CircleCheck,
+  icons,
+  type LucideIcon,
+} from 'lucide-react';
 import { getAboutContent } from '@/lib/content';
 import { ButtonLink, CtaBand, Eyebrow, SectionHeading } from '@/components/ui';
+import AnimatedHeadline from '@/components/AnimatedHeadline';
 import { site } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
+
+/** Brand-tinted icon tiles, cycled across the approach cards. */
+const APPROACH_ACCENTS = [
+  'bg-brand-blue/20 text-sky-300 ring-brand-blue/40',
+  'bg-brand-orange/15 text-brand-orange ring-brand-orange/30',
+  'bg-brand-pink/15 text-pink-300 ring-brand-pink/30',
+  'bg-emerald-500/15 text-emerald-300 ring-emerald-400/30',
+];
+
+/**
+ * The admin stores an emoji or a Lucide icon name. Use the Lucide icon when
+ * one is named; otherwise pick one from the title so emoji never render.
+ */
+function approachIcon(icon: string, title: string): LucideIcon {
+  const named = icons[icon as keyof typeof icons];
+  if (named) return named;
+  const t = title.toLowerCase();
+  if (/agreement|contract|service/.test(t)) return ClipboardCheck;
+  if (/polic|guideline|rule|code/.test(t)) return ScrollText;
+  if (/accountab|structure|governance|safeguard/.test(t)) return ShieldCheck;
+  if (/perform|track|measure|report|metric/.test(t)) return TrendingUp;
+  return CircleCheck;
+}
 
 export const metadata: Metadata = {
   title: `About Us | ${site.name}`,
@@ -82,21 +116,27 @@ export default async function AboutPage() {
           <SectionHeading
             dark
             eyebrow="Our approach"
-            title={content.approach.description}
+            title={<AnimatedHeadline text={content.approach.description} />}
             description="Every placement runs on the same foundations, so organizations know what to expect and volunteers know what is expected of them."
           />
           <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {content.approach.items.map((item) => (
-              <li
-                key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6"
-              >
-                <span aria-hidden="true" className="block text-3xl">
-                  {item.icon}
-                </span>
-                <p className="mt-4 font-semibold leading-6 text-white">{item.title}</p>
-              </li>
-            ))}
+            {content.approach.items.map((item, i) => {
+              const Icon = approachIcon(item.icon, item.title);
+              const accent = APPROACH_ACCENTS[i % APPROACH_ACCENTS.length];
+              return (
+                <li
+                  key={item.title}
+                  className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition-colors duration-200 hover:border-white/25 hover:bg-white/[0.08]"
+                >
+                  <span
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl ring-1 transition-transform duration-200 group-hover:-translate-y-0.5 ${accent}`}
+                  >
+                    <Icon className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+                  </span>
+                  <p className="mt-5 font-semibold leading-6 text-white">{item.title}</p>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>
