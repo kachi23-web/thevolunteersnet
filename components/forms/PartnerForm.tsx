@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { CircleCheck } from 'lucide-react';
+import { buttonClass } from '@/components/ui';
 import { submitPartnerForm } from '@/app/admin/actions/submissions';
 
 interface FormFields {
@@ -46,15 +48,15 @@ export default function PartnerForm() {
 
   function validate(data: FormFields): FormErrors {
     const errs: FormErrors = {};
-    if (!data.organizationName.trim()) errs.organizationName = 'Organization name is required.';
-    if (!data.contactName.trim()) errs.contactName = 'Contact name is required.';
+    if (!data.organizationName.trim()) errs.organizationName = 'Please tell us the name of your organization.';
+    if (!data.contactName.trim()) errs.contactName = 'Please tell us who we should speak to.';
     if (!data.email.trim()) {
-      errs.email = 'Email address is required.';
+      errs.email = 'We need an email address to reply to you.';
     } else if (!EMAIL_REGEX.test(data.email.trim())) {
-      errs.email = 'Please enter a valid email address.';
+      errs.email = 'That email address does not look right. Please check it.';
     }
-    if (!data.organizationType) errs.organizationType = 'Please select an organization type.';
-    if (!data.volunteerNeeds.trim()) errs.volunteerNeeds = 'Please describe your volunteer needs.';
+    if (!data.organizationType) errs.organizationType = 'Please choose the option that best describes your organization.';
+    if (!data.volunteerNeeds.trim()) errs.volunteerNeeds = 'Please tell us a little about the help you need.';
     return errs;
   }
 
@@ -86,7 +88,7 @@ export default function PartnerForm() {
         setSubmitted(true);
       }
     } catch {
-      setServerError('Something went wrong. Please try again.');
+      setServerError('We could not send your request. Please check your connection and try again.');
     } finally {
       setSubmitting(false);
     }
@@ -94,25 +96,23 @@ export default function PartnerForm() {
 
   if (submitted) {
     return (
-      <div
-        role="alert"
-        className="rounded-2xl bg-green-50 border border-green-200 p-10 text-center"
-      >
-        <div className="text-4xl mb-4">🤝</div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">
-          Thank you, {fields.organizationName}!
+      <div role="status" className="py-6 text-center">
+        <CircleCheck className="mx-auto h-14 w-14 text-green-600" strokeWidth={1.5} aria-hidden="true" />
+        <h2 className="mt-5 text-2xl font-black tracking-tight text-slate-900">
+          Thank you. We have your request.
         </h2>
-        <p className="text-slate-600 leading-7">
-          Your partnership inquiry has been received. A member of the TVN team will reach out to{' '}
-          <span className="font-medium text-slate-900">{fields.contactName}</span> at{' '}
-          <span className="font-medium text-slate-900">{fields.email}</span> shortly.
+        <p className="mx-auto mt-3 max-w-md leading-7 text-slate-600">
+          A member of the TVN team will reach out to{' '}
+          <span className="font-semibold text-slate-900">{fields.contactName}</span> at{' '}
+          <span className="font-semibold text-slate-900">{fields.email}</span> to talk through
+          what {fields.organizationName} needs.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-6">
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       {serverError && (
         <div role="alert" className="rounded-xl bg-red-50 border border-red-200 p-4 text-sm text-red-700">
           {serverError}
@@ -121,8 +121,8 @@ export default function PartnerForm() {
 
       {/* Organization Name */}
       <div>
-        <label htmlFor="organizationName" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Organization Name <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="organizationName" className="mb-2 block text-sm font-semibold text-slate-900">
+          Organization name <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <input
           id="organizationName"
@@ -133,13 +133,11 @@ export default function PartnerForm() {
           onChange={handleChange}
           aria-describedby={errors.organizationName ? 'organizationName-error' : undefined}
           aria-invalid={!!errors.organizationName}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors ${
-            errors.organizationName ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="Helping Hands Foundation"
+          className="field"
+          placeholder="e.g. Helping Hands Foundation"
         />
         {errors.organizationName && (
-          <p id="organizationName-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="organizationName-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.organizationName}
           </p>
         )}
@@ -147,8 +145,8 @@ export default function PartnerForm() {
 
       {/* Contact Name */}
       <div>
-        <label htmlFor="contactName" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Contact Person Name <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="contactName" className="mb-2 block text-sm font-semibold text-slate-900">
+          Your name <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <input
           id="contactName"
@@ -159,13 +157,11 @@ export default function PartnerForm() {
           onChange={handleChange}
           aria-describedby={errors.contactName ? 'contactName-error' : undefined}
           aria-invalid={!!errors.contactName}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors ${
-            errors.contactName ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="Jane Doe"
+          className="field"
+          placeholder="Your first and last name"
         />
         {errors.contactName && (
-          <p id="contactName-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="contactName-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.contactName}
           </p>
         )}
@@ -173,8 +169,8 @@ export default function PartnerForm() {
 
       {/* Email */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Email Address <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="email" className="mb-2 block text-sm font-semibold text-slate-900">
+          Work email <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <input
           id="email"
@@ -185,13 +181,11 @@ export default function PartnerForm() {
           onChange={handleChange}
           aria-describedby={errors.email ? 'email-error' : undefined}
           aria-invalid={!!errors.email}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors ${
-            errors.email ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="jane@organization.org"
+          className="field"
+          placeholder="you@organization.org"
         />
         {errors.email && (
-          <p id="email-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="email-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.email}
           </p>
         )}
@@ -199,8 +193,8 @@ export default function PartnerForm() {
 
       {/* Organization Type */}
       <div>
-        <label htmlFor="organizationType" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Organization Type <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="organizationType" className="mb-2 block text-sm font-semibold text-slate-900">
+          Type of organization <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <select
           id="organizationType"
@@ -209,9 +203,7 @@ export default function PartnerForm() {
           onChange={handleChange}
           aria-describedby={errors.organizationType ? 'organizationType-error' : undefined}
           aria-invalid={!!errors.organizationType}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors appearance-none bg-no-repeat bg-[right_1rem_center] ${
-            errors.organizationType ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
+          className="field"
         >
           <option value="" disabled>Select a type…</option>
           {ORGANIZATION_TYPES.map((type) => (
@@ -219,7 +211,7 @@ export default function PartnerForm() {
           ))}
         </select>
         {errors.organizationType && (
-          <p id="organizationType-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="organizationType-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.organizationType}
           </p>
         )}
@@ -227,8 +219,8 @@ export default function PartnerForm() {
 
       {/* Volunteer Needs */}
       <div>
-        <label htmlFor="volunteerNeeds" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Volunteer Needs <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="volunteerNeeds" className="mb-2 block text-sm font-semibold text-slate-900">
+          What do you need volunteers for? <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <textarea
           id="volunteerNeeds"
@@ -238,13 +230,11 @@ export default function PartnerForm() {
           onChange={handleChange}
           aria-describedby={errors.volunteerNeeds ? 'volunteerNeeds-error' : undefined}
           aria-invalid={!!errors.volunteerNeeds}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors resize-none ${
-            errors.volunteerNeeds ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="Describe the types of volunteers you need and the activities they would support…"
+          className="field resize-y"
+          placeholder="The roles you need filled, roughly how many people, and for how long. Rough numbers are fine."
         />
         {errors.volunteerNeeds && (
-          <p id="volunteerNeeds-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="volunteerNeeds-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.volunteerNeeds}
           </p>
         )}
@@ -253,9 +243,9 @@ export default function PartnerForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-full bg-[#1565C0] text-white text-sm font-semibold px-8 py-3.5 hover:bg-[#0D47A1] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0] disabled:opacity-60 disabled:cursor-not-allowed"
+        className={buttonClass('primary', 'lg', 'w-full')}
       >
-        {submitting ? 'Submitting…' : 'Submit Inquiry'}
+        {submitting ? 'Sending…' : 'Send my request'}
       </button>
     </form>
   );

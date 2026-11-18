@@ -1,14 +1,15 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type { Metadata } from 'next';
+import { Eye, Target } from 'lucide-react';
 import { getAboutContent } from '@/lib/content';
+import { ButtonLink, CtaBand, Eyebrow, SectionHeading } from '@/components/ui';
+import { site } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'About Us | The Volunteer Nations',
-  description:
-    'Learn about The Volunteer Nations — our mission, values, and the team behind the movement.',
+  title: `About Us | ${site.name}`,
+  description: `Learn about ${site.name} — our mission, our values, and how we work.`,
 };
 
 export default async function AboutPage() {
@@ -17,136 +18,120 @@ export default async function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 80% at 0% 0%, #bfdbfe 0%, transparent 70%), radial-gradient(ellipse 55% 70% at 100% 20%, #fde8d0 0%, transparent 65%), #f0f7ff',
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
-          {/* Text */}
+      <section className="page-hero-bg border-b border-slate-200/70">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-24">
           <div>
-            <span className="inline-flex items-center rounded-full border border-[#1565C0]/20 bg-[#1565C0]/5 px-4 py-1.5 text-sm font-medium text-[#1565C0] mb-8">
-              {content.hero.badge}
-            </span>
-            <h1 className="text-5xl lg:text-6xl font-black leading-[0.95] tracking-tight text-slate-900">
+            <Eyebrow>{content.hero.badge}</Eyebrow>
+            <h1 className="mt-5 text-4xl font-black leading-[1.05] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
               {content.hero.headingLine1}
-              <span className="block text-[#1565C0]">{content.hero.headingHighlight}</span>
+              <span className="block text-brand-blue">{content.hero.headingHighlight}</span>
             </h1>
-            <p className="mt-8 text-lg leading-8 text-slate-600 max-w-xl">
+            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
               {content.hero.description}
             </p>
-            <div className="flex flex-wrap gap-4 mt-10">
-              <Link
-                href="/volunteer"
-                className="rounded-full bg-[#1565C0] hover:bg-[#0D47A1] transition-colors duration-200 px-7 py-3.5 text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
-              >
-                Join Our Team
-              </Link>
-              <Link
-                href="/contact"
-                className="rounded-full border border-[#1565C0] text-[#1565C0] hover:bg-[#1565C0]/10 transition-colors duration-200 px-7 py-3.5 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
-              >
-                Get in Touch
-              </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ButtonLink href="/volunteer">Become a volunteer</ButtonLink>
+              <ButtonLink href="/contact" tone="outline">
+                Get in touch
+              </ButtonLink>
             </div>
           </div>
 
-          {/* Image */}
-          <div className="relative rounded-[32px] overflow-hidden shadow-xl">
-            <Image
-              src={content.hero.heroImage}
-              alt="The Volunteer Nations team members at a community event"
-              width={700}
-              height={600}
-              className="w-full h-[600px] object-cover"
-              priority
+          <div className="relative">
+            <div
+              aria-hidden="true"
+              className="absolute -bottom-4 -right-4 hidden h-full w-full rounded-[32px] bg-brand-orange/20 sm:block"
             />
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[32px] bg-slate-200 lg:aspect-[5/4]">
+              <Image
+                src={content.hero.heroImage}
+                alt={`${site.name} volunteers at a community event`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                preload
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Mission & Vision */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-8 py-24 grid md:grid-cols-2 gap-12">
-        <div className="bg-[#1565C0]/5 rounded-3xl p-10">
-          <h2 className="text-2xl font-black text-slate-900 mb-4">Our Mission</h2>
-          <p className="text-slate-600 leading-8">
-            {content.mission}
-          </p>
-        </div>
-        <div className="bg-orange-50 rounded-3xl p-10">
-          <h2 className="text-2xl font-black text-slate-900 mb-4">Our Vision</h2>
-          <p className="text-slate-600 leading-8">
-            {content.vision}
-          </p>
+      <section className="bg-white py-20 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-6 px-6 md:grid-cols-2 lg:px-8">
+          <div className="rounded-3xl border border-brand-blue/15 bg-brand-blue/5 p-8 sm:p-10">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-blue text-white">
+              <Target className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+            </span>
+            <h2 className="mt-6 text-2xl font-black tracking-tight text-slate-900">Our mission</h2>
+            <p className="mt-3 text-lg leading-8 text-slate-700">{content.mission}</p>
+          </div>
+          <div className="rounded-3xl border border-brand-orange/20 bg-brand-orange/8 p-8 sm:p-10">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-orange text-brand-navy">
+              <Eye className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+            </span>
+            <h2 className="mt-6 text-2xl font-black tracking-tight text-slate-900">Our vision</h2>
+            <p className="mt-3 text-lg leading-8 text-slate-700">{content.vision}</p>
+          </div>
         </div>
       </section>
 
       {/* Our Approach */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
-        <div className="bg-slate-900 rounded-3xl p-10 lg:p-14">
-          <h2 className="text-3xl font-black text-white mb-4">Our Approach</h2>
-          <p className="text-slate-300 leading-8 mb-10 max-w-2xl">
-            {content.approach.description}
-          </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="bg-brand-navy py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <SectionHeading
+            dark
+            eyebrow="Our approach"
+            title={content.approach.description}
+            description="Every placement runs on the same foundations, so organizations know what to expect and volunteers know what is expected of them."
+          />
+          <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {content.approach.items.map((item) => (
-              <div
+              <li
                 key={item.title}
-                className="bg-white/10 rounded-2xl p-6 border border-white/10"
+                className="rounded-2xl border border-white/10 bg-white/5 p-6"
               >
-                <span className="text-3xl mb-4 block">{item.icon}</span>
-                <p className="text-white font-semibold leading-6">{item.title}</p>
-              </div>
+                <span aria-hidden="true" className="block text-3xl">
+                  {item.icon}
+                </span>
+                <p className="mt-4 font-semibold leading-6 text-white">{item.title}</p>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       {/* Values */}
-      <section className="bg-slate-50 py-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-slate-900 mb-12 text-center">
-            What We Stand For
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {content.values.map((value) => (
-              <div
+      <section className="bg-slate-50 py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Our values"
+            title="What we stand for"
+            description="The principles we hold ourselves to — in the field, with partners and with each other."
+          />
+          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {content.values.map((value, i) => (
+              <li
                 key={value.title}
-                className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100"
+                className="rounded-3xl border border-slate-200 bg-white p-8"
               >
-                <h3 className="text-lg font-bold text-slate-900 mb-3">{value.title}</h3>
-                <p className="text-slate-600 text-sm leading-7">{value.description}</p>
-              </div>
+                <span aria-hidden="true" className="text-sm font-black tabular-nums text-brand-orange">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="mt-3 text-lg font-bold text-slate-900">{value.title}</h3>
+                <p className="mt-2 text-[15px] leading-7 text-slate-600">{value.description}</p>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-8 py-24 text-center">
-        <h2 className="text-3xl font-black text-slate-900 mb-6">
-          Ready to Make a Difference?
-        </h2>
-        <p className="text-slate-600 max-w-xl mx-auto mb-10 leading-8">
-          Whether you want to volunteer, partner with us, or simply learn more —
-          we would love to hear from you.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link
-            href="/volunteer"
-            className="rounded-full bg-[#1565C0] hover:bg-[#0D47A1] transition-colors duration-200 px-7 py-3.5 text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
-          >
-            Become a Volunteer
-          </Link>
-          <Link
-            href="/partner"
-            className="rounded-full border border-[#1565C0] text-[#1565C0] hover:bg-[#1565C0]/10 transition-colors duration-200 px-7 py-3.5 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
-          >
-            Partner With Us
-          </Link>
-        </div>
-      </section>
+      <CtaBand
+        heading="There is a place for you here"
+        description="Whether you have a skill to give or a programme that needs hands, we would love to hear from you."
+        primary={{ label: 'Become a volunteer', href: '/volunteer' }}
+        secondary={{ label: 'Partner with us', href: '/partner' }}
+      />
     </>
   );
 }

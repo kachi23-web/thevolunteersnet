@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
+import { ButtonLink, buttonClass } from '@/components/ui';
+import { site } from '@/lib/site';
 
 export default function Error({
   error,
@@ -15,28 +16,29 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-      <p className="text-8xl font-black text-[#1565C0]">500</p>
-      <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900">
-        Something went wrong
-      </h1>
-      <p className="mt-4 text-slate-600 leading-7 max-w-md">
-        An unexpected error occurred. Please try again or come back later.
+    <div className="page-hero-bg flex min-h-[70vh] flex-col items-center justify-center px-6 py-20 text-center">
+      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-blue">
+        Something broke
       </p>
-      <div className="mt-8 flex gap-4">
-        <button
-          onClick={reset}
-          className="rounded-full bg-[#1565C0] text-white font-semibold px-7 py-3 hover:bg-[#0D47A1] transition-colors duration-200"
-        >
+      <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
+        This page did not load properly
+      </h1>
+      <p className="mt-5 max-w-md text-lg leading-8 text-slate-600">
+        The problem is on our side, not yours. Try again, and if it keeps happening please let us
+        know at{' '}
+        <a href={`mailto:${site.email}`} className="font-semibold text-brand-blue hover:underline">
+          {site.email}
+        </a>
+        .
+      </p>
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <button type="button" onClick={reset} className={buttonClass('primary')}>
           Try again
         </button>
-        <Link
-          href="/"
-          className="rounded-full border border-[#1565C0] text-[#1565C0] font-semibold px-7 py-3 hover:bg-blue-50 transition-colors duration-200"
-        >
-          Back to Home
-        </Link>
+        <ButtonLink href="/" tone="outline">
+          Back to home
+        </ButtonLink>
       </div>
-    </main>
+    </div>
   );
 }

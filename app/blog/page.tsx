@@ -1,12 +1,13 @@
 import { getBlogPosts } from '@/lib/content';
 import BlogCard from '@/components/BlogCard';
+import { ButtonLink, PageHero } from '@/components/ui';
+import { site } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Blog — The Volunteer Nations',
-  description:
-    'Stories, insights, and updates from The Volunteer Nations community.',
+  title: `Stories — ${site.name}`,
+  description: `Stories, lessons and updates from the ${site.name} community.`,
 };
 
 export default async function BlogPage() {
@@ -14,35 +15,42 @@ export default async function BlogPage() {
 
   return (
     <>
-      {/* Page hero */}
-      <section className="bg-slate-50 py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <span className="text-[#1565C0] font-semibold uppercase tracking-[0.2em] text-xs">
-            Our Blog
-          </span>
-          <h1 className="mt-4 text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
-            News &amp; <span className="text-[#1565C0]">Insights</span>
-          </h1>
-          <p className="mt-6 text-lg text-slate-600 leading-8 max-w-2xl mx-auto">
-            Impact stories, community news, and volunteer insights from across the TVN network.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Stories"
+        title="From the field,"
+        highlight="in our own words"
+        description="What we are learning, who we are meeting, and what changes when the right people show up."
+      />
 
-      {/* Blog grid */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <BlogCard
-                key={post.slug}
-                title={post.title}
-                category={post.category}
-                image={post.image}
-                slug={post.slug}
-              />
-            ))}
-          </div>
+      <section className="bg-white py-16 lg:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          {blogPosts.length === 0 ? (
+            <div className="mx-auto max-w-md rounded-3xl border border-dashed border-slate-300 p-10 text-center">
+              <h2 className="text-xl font-bold text-slate-900">No stories yet</h2>
+              <p className="mt-2 leading-7 text-slate-600">
+                We are writing the first ones now. In the meantime, come and be part of one.
+              </p>
+              <div className="mt-6">
+                <ButtonLink href="/volunteer" size="md">
+                  Become a volunteer
+                </ButtonLink>
+              </div>
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {blogPosts.map((post) => (
+                <BlogCard
+                  key={post.slug}
+                  title={post.title}
+                  category={post.category}
+                  image={post.image}
+                  slug={post.slug}
+                  excerpt={post.excerpt}
+                  date={post.createdAt}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>

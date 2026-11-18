@@ -32,7 +32,8 @@ const DEFAULT_HERO_CONTENT: HeroContent = {
     "We help nonprofits, NGOs, and community organizations recruit, train, and manage volunteers that create measurable impact.",
   primaryCta: { label: "Become a Volunteer", href: "/volunteer" },
   secondaryCta: { label: "Partner With Us", href: "/partner" },
-  heroImage: "/hero-img.png",
+  heroImage:
+    "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1800&auto=format&fit=crop",
   extraSlides: [
     {
       badge: "Mobilizing Changemakers",
@@ -44,8 +45,8 @@ const DEFAULT_HERO_CONTENT: HeroContent = {
       primaryCta: { label: "Explore Services", href: "/services" },
       secondaryCta: { label: "Partner With Us", href: "/partner" },
       heroImage:
-        "https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=1400&auto=format&fit=crop",
-      imageAlt: "Volunteers collaborating on a community project",
+        "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1800&auto=format&fit=crop",
+      imageAlt: "Nonprofit team planning a programme together around a table",
     },
     {
       badge: "Transforming Communities",
@@ -57,8 +58,8 @@ const DEFAULT_HERO_CONTENT: HeroContent = {
       primaryCta: { label: "Our Story", href: "/about" },
       secondaryCta: { label: "Become a Volunteer", href: "/volunteer" },
       heroImage:
-        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1400&auto=format&fit=crop",
-      imageAlt: "Diverse team of volunteers in a group discussion",
+        "https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1800&auto=format&fit=crop",
+      imageAlt: "Smiling children at a community outreach event",
     },
   ],
 };
@@ -77,9 +78,9 @@ const DEFAULT_ABOUT_CONTENT: AboutContent = {
     headingLine1: "Driven by Purpose,",
     headingHighlight: "Powered by People",
     description:
-      "The Volunteer Nations is a volunteer-driven organization committed to amplifying the impact of social initiatives by connecting them with skilled, passionate volunteers.",
+      "The Volunteers Nation is a volunteer-driven organization committed to amplifying the impact of social initiatives by connecting them with skilled, passionate volunteers.",
     heroImage:
-      "https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1800&auto=format&fit=crop",
   },
   mission:
     "To bridge the gap between organizations and volunteers by providing structured, reliable, and impactful volunteer engagement systems.",

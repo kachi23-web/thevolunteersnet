@@ -1,36 +1,31 @@
 import VolunteerForm from '@/components/forms/VolunteerForm';
+import FormShell from '@/components/forms/FormShell';
+import { volunteerSteps } from '@/components/HowItWorks';
+import { PageHero } from '@/components/ui';
+import { site } from '@/lib/site';
 
 export const metadata = {
-  title: 'Become a Volunteer — The Volunteer Nations',
-  description:
-    'Sign up to volunteer with The Volunteer Nations and help connect communities with the support they need.',
+  title: `Become a Volunteer — ${site.name}`,
+  description: `Sign up to volunteer with ${site.name} and put your skills to work for organizations that need them.`,
 };
 
 export default function VolunteerPage() {
   return (
     <>
-      {/* Page hero */}
-      <section className="bg-slate-50 py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <span className="text-[#1565C0] font-semibold uppercase tracking-[0.2em] text-xs">
-            Get Involved
-          </span>
-          <h1 className="mt-4 text-5xl lg:text-6xl font-black tracking-tight text-slate-900">
-            Become a <span className="text-[#1565C0]">Volunteer</span>
-          </h1>
-          <p className="mt-6 text-lg text-slate-600 leading-8 max-w-2xl mx-auto">
-            Share your skills, time, and passion with organizations that need them most. Fill in the
-            form below and a member of our team will be in touch.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Volunteer"
+        title="Your skills are needed."
+        highlight="Let’s find out where."
+        description="You do not need to be an expert or have endless free time. Tell us what you can offer and we will match you with an organization where it makes a real difference."
+      />
 
-      {/* Form section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-2xl mx-auto px-6 lg:px-8">
-          <VolunteerForm />
-        </div>
-      </section>
+      <FormShell
+        heading="What happens after you apply"
+        steps={volunteerSteps}
+        formTitle="Volunteer application"
+      >
+        <VolunteerForm />
+      </FormShell>
     </>
   );
 }

@@ -1,12 +1,20 @@
-import { HeartHandshake, GraduationCap, Globe2, type LucideIcon } from 'lucide-react';
+import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 import type { Service } from '@/types';
+import ServiceIcon from '@/components/ServiceIcon';
+import { SectionHeading } from '@/components/ui';
+import { generateSlug } from '@/lib/utils';
 
-const iconMap: Record<string, LucideIcon> = {
-  HeartHandshake,
-  GraduationCap,
-  Globe2,
-};
+const unsplash = (id: string) =>
+  `https://images.unsplash.com/${id}?q=75&w=900&auto=format&fit=crop`;
+
+/** Used when a service has no image of its own, in display order. */
+const fallbackImages = [
+  { src: unsplash('photo-1559027615-cd4628902d4a'), alt: 'A volunteer in a bright volunteer shirt at an event' },
+  { src: unsplash('photo-1524178232363-1fb2b075b655'), alt: 'A facilitator leading a training workshop' },
+  { src: unsplash('photo-1593113630400-ea4288922497'), alt: 'Volunteers carrying supplies to a community distribution' },
+];
 
 interface ServicesSectionProps {
   services: Service[];
@@ -14,52 +22,71 @@ interface ServicesSectionProps {
 
 export default function ServicesSection({ services }: ServicesSectionProps) {
   return (
-    <section id="services" className="py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
-        {/* Two-column header: text left, image right */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
-          <div>
-            <span className="text-[#1565C0] font-semibold uppercase tracking-[0.2em] text-xs">
-              What We Do
-            </span>
-            <h2 className="mt-4 text-4xl lg:text-5xl font-black tracking-tight text-slate-900">
-              Building Sustainable Volunteer Ecosystems
-            </h2>
-            <p className="mt-5 text-lg text-slate-600 leading-8">
-              Structured systems that help organizations recruit, train, and manage volunteers efficiently.
-            </p>
-          </div>
-
-          <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-xl">
-            <Image
-              src="/impact.png"
-              alt="Volunteers making an impact"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
+    <section id="services" className="bg-white py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading
+            eyebrow="What we do"
+            title="Good intentions need good structure"
+            description="Most volunteer efforts fail on logistics, not on heart. We handle the finding, preparing and managing, so the people who show up can actually help."
+          />
+          <Link
+            href="/services"
+            className="inline-flex flex-shrink-0 items-center gap-1.5 text-sm font-semibold text-brand-blue hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-blue"
+          >
+            See how each service works
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
 
-        {/* Service cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <div
-              key={service.title}
-              className="group rounded-[28px] p-8 border border-slate-200 bg-white hover:border-[#1565C0]/30 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-[#1565C0]/8 flex items-center justify-center mb-6">
-                {(() => { const Icon = iconMap[service.icon]; return Icon ? <Icon className="w-7 h-7 text-[#1565C0]" strokeWidth={1.5} /> : null; })()}
-              </div>
-              <h3 className="text-xl font-bold tracking-tight text-slate-900">{service.title}</h3>
-              <p className="mt-4 text-slate-600 leading-7 text-sm">{service.description}</p>
-              <span className="mt-6 inline-block text-[#1565C0] text-sm font-semibold group-hover:translate-x-1 transition-transform duration-200">
-                Learn More →
-              </span>
-            </div>
-          ))}
-        </div>
+        <ul className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {services.map((service, i) => {
+            const fallback = fallbackImages[i % fallbackImages.length];
+            const image = service.image
+              ? { src: service.image, alt: '' }
+              : fallback;
+            return (
+            <li key={service.title}>
+              <Link
+                href={`/services#${generateSlug(service.title)}`}
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-brand-blue/40 hover:shadow-[0_16px_40px_-20px_rgba(13,27,62,0.3)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-brand-navy/45 via-transparent to-transparent" />
+                  <span aria-hidden="true" className="absolute right-5 top-4 rounded-full bg-white/90 px-2.5 py-1 text-xs font-black tabular-nums text-brand-navy backdrop-blur">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col px-8 pb-8">
+                  <span className="relative -mt-7 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-blue shadow-[0_8px_24px_-10px_rgba(13,27,62,0.35)] ring-1 ring-slate-200 transition-colors duration-200 group-hover:bg-brand-blue group-hover:text-white group-hover:ring-brand-blue">
+                    <ServiceIcon name={service.icon} className="h-7 w-7" strokeWidth={1.5} />
+                  </span>
+                <h3 className="mt-5 text-xl font-bold tracking-tight text-slate-900">
+                  {service.title}
+                </h3>
+                <p className="mt-3 flex-1 text-[15px] leading-7 text-slate-600">
+                  {service.description}
+                </p>
+                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-blue">
+                  Learn more
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </span>
+                </div>
+              </Link>
+            </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

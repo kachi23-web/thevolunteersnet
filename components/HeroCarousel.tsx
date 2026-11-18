@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { HeroContent, StatItem, HeroSlideContent } from "@/types";
+import { buttonClass } from "@/components/ui";
+import type { HeroContent, HeroSlideContent } from "@/types";
 
 // ---------------------------------------------------------------------------
 // Internal slide shape used by the carousel renderer
@@ -18,17 +19,7 @@ interface Slide {
   secondaryCta?: { label: string; href: string };
   heroImage: string;
   imageAlt: string;
-  swatchColors: string[];
 }
-
-// Swatch palettes cycle through brand colours for each slide position
-const SWATCH_PALETTES: string[][] = [
-  ["#1565C0", "#F57C00", "#4CAF50"],
-  ["#F57C00", "#1565C0", "#4CAF50"],
-  ["#E91E63", "#1565C0", "#F57C00"],
-  ["#4CAF50", "#E91E63", "#1565C0"],
-  ["#1565C0", "#E91E63", "#F57C00"],
-];
 
 const DEFAULT_FALLBACK_SLIDES: HeroSlideContent[] = [
   {
@@ -41,8 +32,8 @@ const DEFAULT_FALLBACK_SLIDES: HeroSlideContent[] = [
     primaryCta: { label: "Explore Services", href: "/services" },
     secondaryCta: { label: "Partner With Us", href: "/partner" },
     heroImage:
-      "https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=1400&auto=format&fit=crop",
-    imageAlt: "Volunteers collaborating on a community project",
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1800&auto=format&fit=crop",
+    imageAlt: "Nonprofit team planning a programme together around a table",
   },
   {
     badge: "Transforming Communities",
@@ -54,8 +45,8 @@ const DEFAULT_FALLBACK_SLIDES: HeroSlideContent[] = [
     primaryCta: { label: "Our Story", href: "/about" },
     secondaryCta: { label: "Become a Volunteer", href: "/volunteer" },
     heroImage:
-      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1400&auto=format&fit=crop",
-    imageAlt: "Diverse team of volunteers in a group discussion",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1800&auto=format&fit=crop",
+    imageAlt: "Smiling children at a community outreach event",
   },
 ];
 
@@ -69,8 +60,7 @@ function buildSlides(content: HeroContent): Slide[] {
     primaryCta: content.primaryCta,
     secondaryCta: content.secondaryCta,
     heroImage: content.heroImage,
-    imageAlt: "The Volunteer Nations team members smiling at a community event",
-    swatchColors: SWATCH_PALETTES[0],
+    imageAlt: "Volunteers standing arm in arm, looking out over a city",
   };
 
   const rawExtras =
@@ -78,12 +68,7 @@ function buildSlides(content: HeroContent): Slide[] {
       ? content.extraSlides
       : DEFAULT_FALLBACK_SLIDES;
 
-  const extras: Slide[] = rawExtras.map(
-    (s: HeroSlideContent, i: number) => ({
-      ...s,
-      swatchColors: SWATCH_PALETTES[(i + 1) % SWATCH_PALETTES.length],
-    })
-  );
+  const extras: Slide[] = rawExtras.map((s: HeroSlideContent) => ({ ...s }));
 
   return [first, ...extras];
 }
@@ -94,10 +79,9 @@ const TRANSITION_MS = 700;
 
 interface HeroCarouselProps {
   firstSlide: HeroContent;
-  stats: StatItem[];
 }
 
-export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
+export default function HeroCarousel({ firstSlide }: HeroCarouselProps) {
   const slides = buildSlides(firstSlide);
   const total = slides.length;
 
@@ -225,13 +209,12 @@ export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
   }
 
   const slide = slides[current];
-  const swatches = slide.swatchColors;
 
   return (
     <section
       aria-label="Hero carousel"
       className="relative w-full overflow-hidden"
-      style={{ minHeight: "min(100svh, 780px)" }}
+      style={{ minHeight: "min(calc(100svh - 68px), 720px)" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -254,7 +237,7 @@ export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
             fill
             sizes="100vw"
             className="object-cover object-center"
-            priority={i === 0}
+            preload={i === 0}
             loading={i === 0 ? "eager" : "lazy"}
           />
           {/* Gradient overlay */}
@@ -276,24 +259,25 @@ export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
       {/* ================================================================== */}
       <div
         className="relative z-20 flex flex-col justify-end"
-        style={{ minHeight: "min(100svh, 780px)" }}
+        style={{ minHeight: "min(calc(100svh - 68px), 720px)" }}
       >
-        <div className="max-w-7xl mx-auto w-full px-6 lg:px-12 pb-10 lg:pb-14">
+        <div className="max-w-7xl mx-auto w-full px-6 lg:px-12 pt-16 pb-10 lg:pb-14">
 
           {/* Text block */}
           <div className="max-w-2xl">
-            {/* Colour swatch strip */}
-            <div className="flex gap-1.5 mb-6" aria-hidden="true">
-              {swatches.map((color, i) => (
-                <span key={i} className="inline-block h-1 w-8 rounded-full" style={{ backgroundColor: color }} />
-              ))}
-            </div>
+            {/* Badge */}
+            {slide.badge && (
+              <p className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#F57C00]" />
+                {slide.badge}
+              </p>
+            )}
 
             {/* Heading */}
             <h1
               key={current} // re-mount on slide change to re-trigger the animation
               className={[
-                "font-black uppercase leading-[1.0] tracking-tight text-white",
+                "font-black leading-[1.02] tracking-tight text-white",
                 "text-4xl sm:text-5xl lg:text-6xl xl:text-7xl",
                 reducedMotion ? "" : "animate-[fadeInUp_0.55s_ease-out_forwards]",
               ].join(" ")}
@@ -304,48 +288,29 @@ export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
             </h1>
 
             {/* Description */}
-            <p className="mt-5 text-base sm:text-lg leading-7 text-white/80 max-w-lg">
+            <p className="mt-5 text-base sm:text-lg leading-7 sm:leading-8 text-white/85 max-w-xl">
               {slide.description}
             </p>
 
             {/* CTAs */}
             <div className="flex flex-wrap gap-3 mt-8">
-              <Link
-                href={slide.primaryCta.href}
-                className="inline-flex items-center px-6 py-3 text-sm font-bold uppercase tracking-widest text-white transition-opacity duration-200 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                style={{ backgroundColor: "#F57C00" }}
-              >
+              <Link href={slide.primaryCta.href} className={buttonClass("accent")}>
                 {slide.primaryCta.label}
               </Link>
               {slide.secondaryCta?.label && (
-                <Link
-                  href={slide.secondaryCta.href}
-                  className="inline-flex items-center px-6 py-3 text-sm font-bold uppercase tracking-widest text-white transition-opacity duration-200 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  style={{ backgroundColor: "#1565C0" }}
-                >
+                <Link href={slide.secondaryCta.href} className={buttonClass("ghostLight")}>
                   {slide.secondaryCta.label}
                 </Link>
               )}
             </div>
           </div>
 
-          {/* Bottom bar: stats + controls */}
-          <div className="mt-10 flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-0">
-
-            {/* Stats */}
-            <div className="flex flex-wrap items-center gap-8 sm:gap-10 flex-1">
-              {stats.map((stat) => (
-                <div key={stat.label} className="text-white">
-                  <p className="text-3xl font-black leading-none">{stat.value}</p>
-                  <p className="text-white/60 mt-1 text-xs uppercase tracking-widest">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-
+          {/* Bottom bar: controls */}
+          <div className="mt-10 flex items-center">
             {/* Controls */}
             {total > 1 && (
               <div
-                className="flex items-center gap-3 sm:ml-auto flex-shrink-0"
+                className="flex items-center gap-3 flex-shrink-0"
                 role="group"
                 aria-label="Carousel navigation"
               >
@@ -355,7 +320,7 @@ export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
                   aria-label="Previous slide"
                   disabled={isAnimating}
                   onClick={() => triggerManualNav(current - 1)}
-                  className="w-10 h-10 flex items-center justify-center border border-white/30 text-white hover:bg-white/15 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-30"
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/15 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-30"
                 >
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
@@ -397,7 +362,7 @@ export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
                   aria-label="Next slide"
                   disabled={isAnimating}
                   onClick={() => triggerManualNav(current + 1)}
-                  className="w-10 h-10 flex items-center justify-center border border-white/30 text-white hover:bg-white/15 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-30"
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/15 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-30"
                 >
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
@@ -409,7 +374,7 @@ export default function HeroCarousel({ firstSlide, stats }: HeroCarouselProps) {
                   type="button"
                   aria-label={isPaused ? "Resume auto-play" : "Pause auto-play"}
                   onClick={() => setIsPaused((p) => !p)}
-                  className="w-10 h-10 flex items-center justify-center border border-white/30 text-white hover:bg-white/15 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/15 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {isPaused ? (
                     <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">

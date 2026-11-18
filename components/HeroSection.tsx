@@ -1,9 +1,8 @@
-import type { HeroContent, StatItem } from '@/types';
+import type { HeroContent } from '@/types';
 import HeroCarousel from '@/components/HeroCarousel';
 
 interface HeroSectionProps {
   content: HeroContent;
-  stats: StatItem[];
 }
 
 /**
@@ -13,6 +12,6 @@ interface HeroSectionProps {
  * Delegates all interactive carousel behaviour to the HeroCarousel client
  * component so this file remains a lightweight, zero-JS server boundary.
  */
-export default function HeroSection({ content, stats }: HeroSectionProps) {
-  return <HeroCarousel firstSlide={content} stats={stats} />;
+export default function HeroSection({ content }: HeroSectionProps) {
+  return <HeroCarousel firstSlide={content} />;
 }

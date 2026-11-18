@@ -32,7 +32,7 @@ export const testimonials: Testimonial[] = [
     name: 'Sarah Johnson',
     role: 'NGO Program Director',
     quote:
-      'The Volunteer Nations helped us recruit and manage volunteers professionally across multiple projects.',
+      'The Volunteers Nation helped us recruit and manage volunteers professionally across multiple projects.',
   },
   {
     name: 'Amina Ibrahim',
@@ -53,7 +53,7 @@ export const blogPosts: BlogPost[] = [
       'Discover how small acts of volunteering ripple outward to transform entire communities.',
     body: `When individuals come together with a shared purpose, the results can be extraordinary. Community impact is not measured solely in numbers — it lives in the stories of families supported, children educated, and neighborhoods revitalized.
 
-At The Volunteer Nations, we have witnessed firsthand how a single motivated volunteer can spark a chain reaction of positive change. From tutoring sessions that reignite a student's confidence to weekend clean-up drives that restore pride in a neighborhood, every contribution matters.
+At The Volunteers Nation, we have witnessed firsthand how a single motivated volunteer can spark a chain reaction of positive change. From tutoring sessions that reignite a student's confidence to weekend clean-up drives that restore pride in a neighborhood, every contribution matters.
 
 Our programs are designed to channel that energy strategically. By matching volunteers with organizations that align with their skills and passions, we ensure that effort translates into lasting outcomes rather than one-off gestures.
 
@@ -73,7 +73,7 @@ Join us in building a world where every community has access to the support it n
 
 The difference lies in alignment. When a volunteer's expertise matches an organization's need, the value delivered multiplies. A software engineer helping a nonprofit digitize its records, a nurse training community health workers, or a teacher developing literacy curricula — these are not just acts of goodwill, they are strategic investments in human capital.
 
-The Volunteer Nations was founded on this principle. Our matching process goes beyond availability and interest; we assess skills, experience, and organizational fit to ensure every placement is purposeful.
+The Volunteers Nation was founded on this principle. Our matching process goes beyond availability and interest; we assess skills, experience, and organizational fit to ensure every placement is purposeful.
 
 We also invest in the volunteers themselves. Through our Training & Development programs, volunteers receive orientation, ongoing support, and recognition that keeps them engaged over the long term. Retention is as important as recruitment — a volunteer who stays for two years delivers exponentially more value than ten volunteers who each stay for a month.
 

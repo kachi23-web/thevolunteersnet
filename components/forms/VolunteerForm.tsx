@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { CircleCheck } from 'lucide-react';
+import { buttonClass } from '@/components/ui';
 import { submitVolunteerForm } from '@/app/admin/actions/submissions';
 
 interface FormFields {
@@ -46,15 +48,15 @@ export default function VolunteerForm() {
 
   function validate(data: FormFields): FormErrors {
     const errs: FormErrors = {};
-    if (!data.fullName.trim()) errs.fullName = 'Full name is required.';
+    if (!data.fullName.trim()) errs.fullName = 'Please tell us your name.';
     if (!data.email.trim()) {
-      errs.email = 'Email address is required.';
+      errs.email = 'We need an email address to reply to you.';
     } else if (!EMAIL_REGEX.test(data.email.trim())) {
-      errs.email = 'Please enter a valid email address.';
+      errs.email = 'That email address does not look right. Please check it.';
     }
-    if (!data.phone.trim()) errs.phone = 'Phone number is required.';
-    if (!data.areaOfInterest) errs.areaOfInterest = 'Please select an area of interest.';
-    if (!data.motivation.trim()) errs.motivation = 'Please share your motivation.';
+    if (!data.phone.trim()) errs.phone = 'Please add a phone number we can reach you on.';
+    if (!data.areaOfInterest) errs.areaOfInterest = 'Please choose the area you would most like to help in.';
+    if (!data.motivation.trim()) errs.motivation = 'Please tell us a little about why you want to volunteer.';
     return errs;
   }
 
@@ -86,7 +88,7 @@ export default function VolunteerForm() {
         setSubmitted(true);
       }
     } catch {
-      setServerError('Something went wrong. Please try again.');
+      setServerError('We could not send your application. Please check your connection and try again.');
     } finally {
       setSubmitting(false);
     }
@@ -94,22 +96,22 @@ export default function VolunteerForm() {
 
   if (submitted) {
     return (
-      <div
-        role="alert"
-        className="rounded-2xl bg-green-50 border border-green-200 p-10 text-center"
-      >
-        <div className="text-4xl mb-4">🎉</div>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Thank you, {fields.fullName}!</h2>
-        <p className="text-slate-600 leading-7">
-          Your volunteer application has been received. A member of the TVN team will be in touch
-          with you at <span className="font-medium text-slate-900">{fields.email}</span> shortly.
+      <div role="status" className="py-6 text-center">
+        <CircleCheck className="mx-auto h-14 w-14 text-green-600" strokeWidth={1.5} aria-hidden="true" />
+        <h2 className="mt-5 text-2xl font-black tracking-tight text-slate-900">
+          Thank you, {fields.fullName.trim().split(' ')[0]}. We have your application.
+        </h2>
+        <p className="mx-auto mt-3 max-w-md leading-7 text-slate-600">
+          A member of the TVN team will be in touch at{' '}
+          <span className="font-semibold text-slate-900">{fields.email}</span> to talk through
+          next steps.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-6">
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       {serverError && (
         <div role="alert" className="rounded-xl bg-red-50 border border-red-200 p-4 text-sm text-red-700">
           {serverError}
@@ -118,8 +120,8 @@ export default function VolunteerForm() {
 
       {/* Full Name */}
       <div>
-        <label htmlFor="fullName" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Full Name <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="fullName" className="mb-2 block text-sm font-semibold text-slate-900">
+          Full name <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <input
           id="fullName"
@@ -130,13 +132,11 @@ export default function VolunteerForm() {
           onChange={handleChange}
           aria-describedby={errors.fullName ? 'fullName-error' : undefined}
           aria-invalid={!!errors.fullName}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors ${
-            errors.fullName ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="Jane Doe"
+          className="field"
+          placeholder="Your first and last name"
         />
         {errors.fullName && (
-          <p id="fullName-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="fullName-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.fullName}
           </p>
         )}
@@ -144,8 +144,8 @@ export default function VolunteerForm() {
 
       {/* Email */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Email Address <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="email" className="mb-2 block text-sm font-semibold text-slate-900">
+          Email address <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <input
           id="email"
@@ -156,13 +156,11 @@ export default function VolunteerForm() {
           onChange={handleChange}
           aria-describedby={errors.email ? 'email-error' : undefined}
           aria-invalid={!!errors.email}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors ${
-            errors.email ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="jane@example.com"
+          className="field"
+          placeholder="you@example.com"
         />
         {errors.email && (
-          <p id="email-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="email-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.email}
           </p>
         )}
@@ -170,8 +168,8 @@ export default function VolunteerForm() {
 
       {/* Phone */}
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Phone Number <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="phone" className="mb-2 block text-sm font-semibold text-slate-900">
+          Phone number <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <input
           id="phone"
@@ -182,13 +180,11 @@ export default function VolunteerForm() {
           onChange={handleChange}
           aria-describedby={errors.phone ? 'phone-error' : undefined}
           aria-invalid={!!errors.phone}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors ${
-            errors.phone ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="+1 (555) 000-0000"
+          className="field"
+          placeholder="e.g. 0801 234 5678"
         />
         {errors.phone && (
-          <p id="phone-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="phone-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.phone}
           </p>
         )}
@@ -196,8 +192,8 @@ export default function VolunteerForm() {
 
       {/* Area of Interest */}
       <div>
-        <label htmlFor="areaOfInterest" className="block text-sm font-medium text-slate-900 mb-1.5">
-          Area of Interest <span aria-hidden="true" className="text-[#E91E63]">*</span>
+        <label htmlFor="areaOfInterest" className="mb-2 block text-sm font-semibold text-slate-900">
+          Where would you like to help? <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <select
           id="areaOfInterest"
@@ -206,17 +202,15 @@ export default function VolunteerForm() {
           onChange={handleChange}
           aria-describedby={errors.areaOfInterest ? 'areaOfInterest-error' : undefined}
           aria-invalid={!!errors.areaOfInterest}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors appearance-none bg-no-repeat bg-[right_1rem_center] ${
-            errors.areaOfInterest ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
+          className="field"
         >
-          <option value="" disabled>Select an area…</option>
+          <option value="" disabled>Choose an area…</option>
           {AREAS_OF_INTEREST.map((area) => (
             <option key={area} value={area}>{area}</option>
           ))}
         </select>
         {errors.areaOfInterest && (
-          <p id="areaOfInterest-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="areaOfInterest-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.areaOfInterest}
           </p>
         )}
@@ -224,7 +218,7 @@ export default function VolunteerForm() {
 
       {/* Motivation */}
       <div>
-        <label htmlFor="motivation" className="block text-sm font-medium text-slate-900 mb-1.5">
+        <label htmlFor="motivation" className="mb-2 block text-sm font-semibold text-slate-900">
           Why do you want to volunteer? <span aria-hidden="true" className="text-[#E91E63]">*</span>
         </label>
         <textarea
@@ -235,13 +229,11 @@ export default function VolunteerForm() {
           onChange={handleChange}
           aria-describedby={errors.motivation ? 'motivation-error' : undefined}
           aria-invalid={!!errors.motivation}
-          className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1565C0] transition-colors resize-none ${
-            errors.motivation ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-white'
-          }`}
-          placeholder="Tell us what drives you to volunteer and what you hope to contribute…"
+          className="field resize-y"
+          placeholder="A few sentences is plenty. What skills would you bring, and what do you hope to get out of it?"
         />
         {errors.motivation && (
-          <p id="motivation-error" role="alert" className="mt-1.5 text-xs text-red-600">
+          <p id="motivation-error" role="alert" className="mt-2 text-sm text-red-700">
             {errors.motivation}
           </p>
         )}
@@ -250,9 +242,9 @@ export default function VolunteerForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-full bg-[#1565C0] text-white text-sm font-semibold px-8 py-3.5 hover:bg-[#0D47A1] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0] disabled:opacity-60 disabled:cursor-not-allowed"
+        className={buttonClass('primary', 'lg', 'w-full')}
       >
-        {submitting ? 'Submitting…' : 'Submit Application'}
+        {submitting ? 'Sending…' : 'Send my application'}
       </button>
     </form>
   );

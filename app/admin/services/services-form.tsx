@@ -6,6 +6,7 @@ import {
   type ActionState,
 } from "@/app/admin/actions/services";
 import type { ServiceItem } from "@/types";
+import { ImagePicker } from "@/components/admin/ImagePicker";
 
 const MAX_SERVICES = 6;
 const MIN_SERVICES = 1;
@@ -198,6 +199,25 @@ export function ServicesForm({
                   rows={2}
                   placeholder="Brief description of this service"
                   className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1565C0] focus:outline-none focus:ring-1 focus:ring-[#1565C0] resize-none"
+                />
+              </div>
+
+              {/* Card image (optional) */}
+              <div className="md:col-span-2">
+                <label
+                  htmlFor={`service-image-${index}`}
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
+                  Card Image{" "}
+                  <span className="text-slate-400">
+                    (optional — a stock photo is shown if empty)
+                  </span>
+                </label>
+                <ImagePicker
+                  id={`service-image-${index}`}
+                  value={service.image ?? ""}
+                  onChange={(v) => updateService(index, "image", v)}
+                  onClear={() => updateService(index, "image", "")}
                 />
               </div>
 

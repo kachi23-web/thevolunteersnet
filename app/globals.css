@@ -52,3 +52,76 @@ body {
   color: #0F172A;
   background: #ffffff;
 }
+
+/* -------------------------------------------------------------------------
+   Base polish
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem; /* clear the sticky header on anchor jumps */
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: #1565C0;
+  color: #ffffff;
+}
+
+/* Soft brand-tinted backdrop shared by every inner-page header */
+.page-hero-bg {
+  background:
+    radial-gradient(ellipse 55% 90% at 0% 0%, rgba(21, 101, 192, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 45% 80% at 100% 0%, rgba(245, 124, 0, 0.12) 0%, transparent 65%),
+    #f6f9fe;
+}
+
+/* Form fields */
+.field {
+  width: 100%;
+  border-radius: 0.875rem;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  padding: 0.8rem 1rem;
+  font-size: 0.9375rem;
+  color: #0f172a;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.field::placeholder {
+  color: #94a3b8;
+}
+.field:hover {
+  border-color: #94a3b8;
+}
+.field:focus {
+  outline: none;
+  border-color: #1565C0;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.18);
+}
+.field[aria-invalid="true"] {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track {
+    animation: none !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100% !important;
+    row-gap: 1rem;
+  }
+  .marquee-track > [aria-hidden="true"] {
+    display: none;
+  }
+}
+

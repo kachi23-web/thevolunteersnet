@@ -1,26 +1,27 @@
-import Link from 'next/link';
+import { ButtonLink } from '@/components/ui';
+import { site } from '@/lib/site';
 
 export const metadata = {
-  title: '404 — Page Not Found | The Volunteer Nations',
+  title: `Page Not Found | ${site.name}`,
 };
 
 export default function NotFound() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-      <p className="text-8xl font-black text-[#1565C0]">404</p>
-      <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900">
-        Page not found
+    <div className="page-hero-bg flex min-h-[70vh] flex-col items-center justify-center px-6 py-20 text-center">
+      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-blue">Error 404</p>
+      <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
+        We could not find that page
       </h1>
-      <p className="mt-4 text-slate-600 leading-7 max-w-md">
-        Sorry, we couldn&apos;t find the page you were looking for. It may have moved or no longer
-        exists.
+      <p className="mt-5 max-w-md text-lg leading-8 text-slate-600">
+        It may have moved, or the link may be out of date. Here are two good places to start
+        instead.
       </p>
-      <Link
-        href="/"
-        className="mt-8 rounded-full bg-[#1565C0] text-white font-semibold px-7 py-3 hover:bg-[#0D47A1] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1565C0]"
-      >
-        Back to Home
-      </Link>
-    </main>
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <ButtonLink href="/">Back to home</ButtonLink>
+        <ButtonLink href="/volunteer" tone="outline">
+          Become a volunteer
+        </ButtonLink>
+      </div>
+    </div>
   );
 }

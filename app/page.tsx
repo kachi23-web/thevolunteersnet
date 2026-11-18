@@ -1,6 +1,8 @@
 import HeroSection from '@/components/HeroSection';
+import AudienceSplit from '@/components/AudienceSplit';
 import TrustedSection from '@/components/TrustedSection';
 import ServicesSection from '@/components/ServicesSection';
+import HowItWorks from '@/components/HowItWorks';
 import ImpactSection from '@/components/ImpactSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import BlogPreview from '@/components/BlogPreview';
@@ -28,9 +30,11 @@ export default async function Home() {
 
   return (
     <>
-      <HeroSection content={hero} stats={stats} />
+      <HeroSection content={hero} />
+      <AudienceSplit />
       <TrustedSection />
       <ServicesSection services={services} />
+      <HowItWorks />
       <ImpactSection stats={stats} />
       <TestimonialsSection testimonials={testimonials} />
       <BlogPreview posts={posts} />

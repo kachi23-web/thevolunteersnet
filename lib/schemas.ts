@@ -74,6 +74,7 @@ export const serviceItemSchema = z.object({
   description: nonEmptyString(200, "Description"),
   icon: iconSchema,
   expanded: z.string().optional(),
+  image: z.string().max(2048, "Image URL is too long").optional(),
 });
 
 export const servicesSchema = z

@@ -38,6 +38,8 @@ export interface ServiceItem {
   description: string;
   icon: string;
   expanded?: string;
+  /** Optional card photo; the homepage falls back to a stock image when unset. */
+  image?: string;
 }
 
 export interface StatItem {
